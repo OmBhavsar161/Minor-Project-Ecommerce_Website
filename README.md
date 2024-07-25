@@ -7,4 +7,4 @@ This project develops a seamless, user-friendly e-commerce platform with key fea
 
 
 Tecnology:
-React, Tailwind CSS, JavaScript, HTML, MongoDB
+React, Tailwind CSS, JavaScript, HTML, MongoDB.
