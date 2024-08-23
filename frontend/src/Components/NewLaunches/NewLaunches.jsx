@@ -48,9 +48,9 @@ const NewLaunches = () => {
         <img src={smart_ring} alt="" />
       </div>
     </div>
-    {/* <NewCollections />
+    <NewCollections />
     <Offers />
-    <Popular /> */}
+    <Popular />
     </>
   );
 };
