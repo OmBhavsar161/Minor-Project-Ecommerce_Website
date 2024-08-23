@@ -69,11 +69,11 @@ const ProductDisplay = (props) => {
             ₹{formatPrice(product.new_price)}
           </span>
         </div>
-        {/* <p className="text-xl text-white mt-4 py-2 bg-green-500 rounded-lg pl-4 justify-center">
+        <p className="text-xl text-white mt-4 py-2 bg-green-500 rounded-lg pl-4 justify-center">
           Super Saver Deal
           <span className="font-bold text-2xl pl-4">{product.off_percentage}% OFF</span>
           <span className="pl-80">Hurry Up</span>
-        </p> */}
+        </p>
         
         {/* Description */}
         {product.category === "tws" ? (
