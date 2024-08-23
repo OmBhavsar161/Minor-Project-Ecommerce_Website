@@ -15,11 +15,11 @@ const ProductDisplay = (props) => {
       {/* Left Section: Image Gallery */}
       <div className="flex flex-col lg:flex-row items-center gap-16 w-full lg:w-2/3">
         {/* Thumbnail Images */}
-        <div className="flex flex-col gap-2">
-          <img src={product.image} alt="Product Thumbnail 1" className="w-full h-20 object-cover border border-gray-300 rounded-md hover:opacity-85" />
-          <img src={product.image} alt="Product Thumbnail 2" className="w-full h-20 object-cover border border-gray-300 rounded-md hover:opacity-85" />
-          <img src={product.image} alt="Product Thumbnail 3" className="w-full h-20 object-cover border border-gray-300 rounded-md hover:opacity-85" />
-          <img src={product.image} alt="Product Thumbnail 4" className="w-full h-20 object-cover border border-gray-300 rounded-md hover:opacity-85" />
+        <div className="flex flex-col gap-4">
+          <img src={product.image} alt="Product Thumbnail 1" className="w-full h-20 object-cover border border-gray-300 rounded-md hover:ring-2 hover:ring-gray-900 hover:scale-105 hover:shadow-xl " />
+          <img src={product.image} alt="Product Thumbnail 2" className="w-full h-20 object-cover border border-gray-300 rounded-md hover:ring-2 hover:ring-gray-900 hover:scale-105 hover:shadow-xl" />
+          <img src={product.image} alt="Product Thumbnail 3" className="w-full h-20 object-cover border border-gray-300 rounded-md hover:ring-2 hover:ring-gray-900 hover:scale-105 hover:shadow-xl" />
+          <img src={product.image} alt="Product Thumbnail 4" className="w-full h-20 object-cover border border-gray-300 rounded-md hover:ring-2 hover:ring-gray-900 hover:scale-105 hover:shadow-xl" />
         </div>
         {/* Main Image */}
         <div className="flex justify-center">
@@ -30,7 +30,7 @@ const ProductDisplay = (props) => {
       {/* Right Section: Product Details */}
       <div className="flex flex-col gap-4 w-full lg:w-2/3">
         {/* Product Name */}
-        <h1 className="text-3xl font-semibold">{product.name}</h1>
+        <h1 className="text-4xl font-semibold">{product.name}</h1>
 
         {/* Star Rating */}
         <div className="flex items-center gap-1">
@@ -43,9 +43,9 @@ const ProductDisplay = (props) => {
         </div>
 
         {/* Price */}
-        <div className="flex gap-2 items-center">
-          <span className="text-xl line-through text-gray-500">₹{formatPrice(product.old_price)}</span>
-          <span className="text-2xl font-bold text-red-600">₹{formatPrice(product.new_price)}</span>
+        <div className="flex gap-2 items-center mt-4">
+          <span className="text-xl line-through text-red-500">₹{formatPrice(product.old_price)}</span>
+          <span className="text-3xl font-bold text-black">₹{formatPrice(product.new_price)}</span>
         </div>
 
         {/* Description */}
