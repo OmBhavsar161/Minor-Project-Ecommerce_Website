@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import star_icon from "../Assets/star_icon.png";
 import star_dull_icon from "../Assets/star_dull_icon.png";
+import { ShopContext } from "../../Context/ShopContext";
 
 const ProductDisplay = (props) => {
   const { product } = props;
+  const {addToCart} = useContext(ShopContext);
 
   // Function to format prices with commas
   const formatPrice = (price) => {
@@ -145,11 +147,11 @@ const ProductDisplay = (props) => {
           </button>
         </div>
         {/* Add to Cart Button */}
-        <button className="bg-black text-white p-2 rounded-lg mt-6 hover:bg-gray-800 transition-colors w-80">
+        <button className="bg-black text-white p-2 rounded-lg mt-6 hover:bg-gray-800 transition-colors w-80" onClick={() => {addToCart(product.id)}}>
           ADD TO CART
         </button>
         {/* Category and Tags */}
-        <p className="text-gray-600 mt-4">
+        <p className="text-gray-700 mt-4">
           <span className="font-semibold">Category:</span>{" "}
           {product.category_view}
           <span className="ml-4 font-semibold">Tags:</span> Featured, Stylist

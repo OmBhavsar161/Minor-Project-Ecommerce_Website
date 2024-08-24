@@ -3,12 +3,37 @@ import allProductData from "../Components/Assets/all_product.js";
 
 export const ShopContext = createContext(null);
 
+const getDefaultCart = (allProductData) => {
+    let cart = {};
+    for (let index = 0; index < allProductData.length; index++) {
+        cart[index] = 0;
+    }
+    return cart; // Return the cart object
+};
+
 const ShopContextProvider = (props) => {
-    // Assuming you might want to use state for all_product to manage it dynamically
+    // Initialize state for all products
     const [all_product, setAllProduct] = useState(allProductData);
+    
+    // Initialize state for cart items
+    const [cartItems, setCartItems] = useState(() => getDefaultCart(allProductData));
+
+    console.log(cartItems);
+
+    const addToCart = (itemId) => {
+        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+        console.log(cartItems);
+    };
+
+    const removeFromCart = (itemId) => {
+        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    };
 
     const contextValue = {
-        all_product,
+        all_product, 
+        cartItems, 
+        addToCart, 
+        removeFromCart,
         // You can add more values or functions here that might be needed across the app
     };
 
@@ -18,5 +43,5 @@ const ShopContextProvider = (props) => {
         </ShopContext.Provider>
     );
 };
- 
+
 export default ShopContextProvider;
