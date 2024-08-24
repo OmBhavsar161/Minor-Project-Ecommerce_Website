@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import allProductData from "../Components/Assets/all_product.js";
 
 export const ShopContext = createContext(null);
@@ -18,15 +18,19 @@ const ShopContextProvider = (props) => {
     // Initialize state for cart items
     const [cartItems, setCartItems] = useState(() => getDefaultCart(allProductData));
 
-    console.log(cartItems);
+    useEffect(() => {
+        console.log("Cart Items Updated:", cartItems);
+    }, [cartItems]); // Log cart items when they change
 
-    const addToCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-        console.log(cartItems);
+    const addToCart = (itemId, quantity) => {
+        setCartItems((prev) => {
+            const newCart = { ...prev, [itemId]: (prev[itemId] || 0) + quantity };
+            return newCart;
+        });
     };
 
     const removeFromCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+        setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) - 1 }));
     };
 
     const contextValue = {
@@ -34,7 +38,6 @@ const ShopContextProvider = (props) => {
         cartItems, 
         addToCart, 
         removeFromCart,
-        // You can add more values or functions here that might be needed across the app
     };
 
     return (
