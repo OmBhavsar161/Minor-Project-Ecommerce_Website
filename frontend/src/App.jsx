@@ -7,6 +7,7 @@ import Home from "./Pages/Home";
 import Cart from "./Pages/Cart";
 import NewLaunches from "./Components/NewLaunches/NewLaunches";
 import Footer from "./Components/Footer/Footer";
+import All_Products_Display from "./Pages/All_Products_Display";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<LoginSignup />} />
           <Route path="/newlaunches" element={<NewLaunches />} />
+          <Route path="/allproductsdisplay" element={<All_Products_Display />} />
+          
         </Routes>
         <Footer />
       </BrowserRouter>

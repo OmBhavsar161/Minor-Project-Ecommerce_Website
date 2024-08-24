@@ -69,11 +69,49 @@ const ProductDisplay = (props) => {
             ₹{formatPrice(product.new_price)}
           </span>
         </div>
+
+        {/* Off percentage in Prices */}
         <p className="text-xl text-white mt-4 py-2 bg-green-500 rounded-lg pl-4 justify-center">
           Super Saver Deal
           <span className="font-bold text-2xl pl-4">{product.off_percentage}% OFF</span>
           <span className="pl-80">Hurry Up</span>
         </p>
+
+        {/* <div className="relative overflow-hidden">
+      <p
+        className="text-xl text-white mt-4 py-2 bg-green-500 rounded-lg pl-4 justify-center"
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          zIndex: 1,
+        }}
+      >
+        Super Saver Deal
+        <span className="font-bold text-2xl pl-4">{product.off_percentage}% OFF</span>
+        <span className="pl-80">Hurry Up</span>
+        <span
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '100%',
+            background: 'linear-gradient(to top, rgba(0,0,0,0.1), transparent)',
+            transform: 'scaleY(-1)',
+            transformOrigin: 'bottom',
+            opacity: 0.5,
+            animation: 'reflectionMove 3s infinite linear',
+          }}
+        />
+      </p>
+      <style>
+        {`
+          @keyframes reflectionMove {
+            0% { transform: translateY(100%) scaleY(-1); }
+            100% { transform: translateY(-100%) scaleY(-1); }
+          }
+        `}
+      </style> */}
         
         {/* Description */}
         {product.category === "tws" ? (

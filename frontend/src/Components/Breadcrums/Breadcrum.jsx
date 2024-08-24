@@ -1,12 +1,13 @@
 import React from 'react'
 import arrow_icon from '../Assets/breadcrum_arrow.png'
+import { Link } from 'react-router-dom';
 
 const Breadcrum = (props) => {
     const {product} = props;
     
   return (
     <div className='flex gap-3 ml-8 mb-8 font-semibold mt-6'>
-      Home <img src={arrow_icon} alt="" className='h-5 mt-[5px]'/> Products <img src={arrow_icon} alt="" className='h-5 mt-[5px]'/> {product.category_view} <img src={arrow_icon} alt="" className='h-5 mt-[5px]'/> {product.name}
+      <Link to="/">Home</Link> <img src={arrow_icon} alt="" className='h-5 mt-[5px]'/> <Link to="/allproductsdisplay">Products</Link> <img src={arrow_icon} alt="" className='h-5 mt-[5px]'/> <Link to={`/${product.category}`}>{product.category_view}</Link> <img src={arrow_icon} alt="" className='h-5 mt-[5px]'/> <Link>{product.name}</Link>
     </div>
   )
 }
