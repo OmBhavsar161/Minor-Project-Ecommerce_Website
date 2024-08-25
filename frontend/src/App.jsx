@@ -8,6 +8,7 @@ import Cart from "./Pages/Cart";
 import NewLaunches from "./Components/NewLaunches/NewLaunches";
 import Footer from "./Components/Footer/Footer";
 import All_Products_Display from "./Pages/All_Products_Display";
+import Support from "./Components/Support/Support";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/login" element={<LoginSignup />} />
           <Route path="/newlaunches" element={<NewLaunches />} />
           <Route path="/allproductsdisplay" element={<All_Products_Display />} />
+          <Route path="/support" element={<Support />} />
           
         </Routes>
         <Footer />

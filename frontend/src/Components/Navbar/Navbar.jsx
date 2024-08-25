@@ -1,22 +1,24 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../Assets/logo.png";
 import cart_icon from "../Assets/cart_icon.png";
 import smartwatch from "../Assets/smartwatchimg.png";
 import headphone from "../Assets/headphonesimg.png";
 import tws from "../Assets/tws.png";
-import { Link } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
-  const menuRef = useRef(null); // Ref for the menu element
-  const {getTotalCartItems} = useContext(ShopContext);
+  const menuRef = useRef(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { getTotalCartItems } = useContext(ShopContext);
 
   // Toggle main menu visibility
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
-    setIsSubmenuOpen(false); // Close submenu when toggling main menu
+    setIsSubmenuOpen(false); // Close submenu when toggling the main menu
   };
 
   // Toggle submenu visibility
@@ -25,7 +27,7 @@ function Navbar() {
     setIsSubmenuOpen((prev) => !prev);
   };
 
-  // Close menu if clicking outside
+  // Close menu and submenu if clicking outside
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setIsMenuOpen(false);
@@ -34,7 +36,7 @@ function Navbar() {
   };
 
   useEffect(() => {
-    // Add event listener
+    // Add event listener for clicks outside
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       // Clean up event listener
@@ -42,9 +44,21 @@ function Navbar() {
     };
   }, []);
 
+  // Function to determine if a menu item is active
+  const isActive = (path) => {
+    return location.pathname === path ? "text-gray-900" : "text-gray-200";
+  };
+
+  // Handle product link click and close submenu
+  const handleProductClick = (path) => {
+    navigate(path);
+    setIsSubmenuOpen(false);
+    setIsMenuOpen(false);
+  };
+
   return (
-    <div className="navbar bg-gray-500">
-      <div className="navbar-start" ref={menuRef}>
+    <div className="navbar bg-gray-500" ref={menuRef}>
+      <div className="navbar-start">
         <div className="dropdown">
           <div
             tabIndex={0}
@@ -68,38 +82,52 @@ function Navbar() {
             </svg>
           </div>
           {/* Mobile Dropdown Menu */}
-          <ul
-            tabIndex={0}
-            className={`menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow ${
-              isMenuOpen ? "" : "hidden"
-            }`}
-          >
-            <li>
-              <button>Home</button>
-            </li>
-            <li>
-              <button onClick={toggleSubmenu}>Products</button>
-              {isSubmenuOpen && (
-                <ul className="p-2 w-48 bg-white">
-                  <li>
-                    <button>Smart Watch</button>
-                  </li>
-                  <li>
-                    <button>Headphones</button>
-                  </li>
-                  <li>
-                    <button>TWS</button>
-                  </li>
-                </ul>
-              )}
-            </li>
-            <li>
-              <button>New Launches</button>
-            </li>
-            <li>
-              <button>Support</button>
-            </li>
-          </ul>
+          {isMenuOpen && (
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <Link to="/" onClick={() => setIsMenuOpen(false)}>
+                  <button className={isActive("/")}>Home</button>
+                </Link>
+              </li>
+              <li>
+                <button onClick={toggleSubmenu}>Products</button>
+                {isSubmenuOpen && (
+                  <ul className="p-2 w-48 bg-white absolute left-0 top-full z-50 shadow-lg rounded-xl">
+                    <li>
+                      <button onClick={() => handleProductClick("/smartwatch")}>
+                        Smart Watch
+                      </button>
+                    </li>
+                    <li>
+                      <button onClick={() => handleProductClick("/headphones")}>
+                        Headphones
+                      </button>
+                    </li>
+                    <li>
+                      <button onClick={() => handleProductClick("/tws")}>
+                        TWS
+                      </button>
+                    </li>
+                  </ul>
+                )}
+              </li>
+              <li>
+                <Link to="/newlaunches" onClick={() => setIsMenuOpen(false)}>
+                  <button className={isActive("/newlaunches")}>
+                    New Launches
+                  </button>
+                </Link>
+              </li>
+              <li>
+                <Link to="/support" onClick={() => setIsMenuOpen(false)}>
+                  <button className={isActive("/support")}>Support</button>
+                </Link>
+              </li>
+            </ul>
+          )}
         </div>
         <div className="flex justify-center items-center gap-4 lg:gap-10 pl-4">
           <img
@@ -107,61 +135,65 @@ function Navbar() {
             alt="Logo"
             className="hidden md:block w-10 md:w-24 lg:w-16"
           />
-          <Link to="/"><p className="text-2xl lg:text-4xl font-sriracha text-white cursor-pointer">Voice</p></Link>
+          <Link to="/" onClick={() => setIsMenuOpen(false)}>
+            <p className="text-2xl lg:text-4xl font-sriracha text-white cursor-pointer">
+              Voice
+            </p>
+          </Link>
         </div>
       </div>
       <div className="navbar-center hidden lg:flex">
         {/* Desktop Menu */}
-        <ul className="menu menu-horizontal px-1 space-x-6 text-white text-lg">
-        <Link to="/">
+        <ul className="menu menu-horizontal px-1 space-x-10 text-white text-lg">
           <li>
-          
-            <button>
-              Home
-            </button>
-            
+            <Link to="/">
+              <button className={isActive("/")}>Home</button>
+            </Link>
           </li>
-          </Link>
-          <li>
-            <details>
-              <summary>Products</summary>
-              <ul className="p-2 w-72 bg-white text-black ring-2 ring-blue-400">
+          <li
+            onMouseEnter={() => setIsSubmenuOpen(true)}
+            onMouseLeave={() => setIsSubmenuOpen(false)}
+            className="relative"
+          >
+            <button className={isActive("/products")}>Products</button>
+            {isSubmenuOpen && (
+              <ul className="p-2 w-80 bg-white text-black ring-2 ring-blue-400 absolute left-0 top-full z-50 shadow-lg rounded-xl">
                 <li>
-                  <Link to="/smartwatch">
-                    <button className="flex items-center gap-10 py-4">
-                      <img
-                        src={smartwatch}
-                        alt="Smart Watch"
-                        className="w-16"
-                      />
+                  <button onClick={() => handleProductClick("/smartwatch")}>
+                    <div className="flex items-center gap-10 py-4">
+                      <img src={smartwatch} alt="Smart Watch" className="w-16" />
                       Smart Watch
-                    </button>
-                  </Link>
+                    </div>
+                  </button>
                 </li>
                 <li>
-                  <Link to="/headphones">
-                    <button className="flex items-center gap-10 py-4">
+                  <button onClick={() => handleProductClick("/headphones")}>
+                    <div className="flex items-center gap-10 py-4">
                       <img src={headphone} alt="Headphones" className="w-16" />
                       Headphones
-                    </button>
-                  </Link>
+                    </div>
+                  </button>
                 </li>
                 <li>
-                  <Link to="/tws">
-                    <button className="flex items-center gap-10 py-4">
+                  <button onClick={() => handleProductClick("/tws")}>
+                    <div className="flex items-center gap-10 py-4">
                       <img src={tws} alt="TWS" className="w-16" />
                       TWS
-                    </button>
-                  </Link>
+                    </div>
+                  </button>
                 </li>
               </ul>
-            </details>
+            )}
           </li>
           <li>
-            <Link to="/newlaunches"><button>New Launches</button></Link>
+            <Link to="/newlaunches">
+              <button className={isActive("/newlaunches")}>New Launches</button>
+            </Link>
           </li>
           <li>
-            <button>Support</button>
+            <Link to="/support">
+              <button className={isActive("/support")}>Support</button>
+            </Link>
           </li>
         </ul>
       </div>
@@ -173,9 +205,9 @@ function Navbar() {
         </Link>
         <Link to="/cart">
           <button className="p-2 hover:bg-gray-600 hover:bg-opacity-30 rounded-lg transition-all ease-out delay-50">
-            <div className="relative ">
+            <div className="relative">
               <img
-                src={cart_icon} 
+                src={cart_icon}
                 alt="Cart Icon"
                 className="pr-2 w-8 lg:w-10 filter grayscale invert"
               />
@@ -191,6 +223,9 @@ function Navbar() {
 }
 
 export default Navbar;
+
+
+
 
 {
   /* <div className='navbar'>
