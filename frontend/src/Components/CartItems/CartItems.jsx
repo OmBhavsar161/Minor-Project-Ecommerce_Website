@@ -27,7 +27,7 @@ const CartItems = () => {
               <img src={e.image} alt={e.name} className="w-24 object-cover rounded-md" />
               <p className="text-gray-800 font-medium">{e.name}</p>
               <p className="text-gray-800 font-medium ml-4">₹{formatPrice(e.new_price)}</p>
-              <button className="ml-2 w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-gray-800 font-medium text-lg">{cartItems[e.id]}</button>
+              <button className="ml-2 w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 text-gray-800 font-medium text-lg ">{cartItems[e.id]}</button>
               <p className="text-gray-800 font-medium">₹{formatPrice(e.new_price * cartItems[e.id])}</p>
               <img
                 src={remove_icon}
