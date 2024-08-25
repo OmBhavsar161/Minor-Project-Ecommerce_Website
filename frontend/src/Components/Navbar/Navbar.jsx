@@ -46,7 +46,7 @@ function Navbar() {
 
   // Function to determine if a menu item is active
   const isActive = (path) => {
-    return location.pathname === path ? "text-gray-900" : "text-gray-200";
+    return location.pathname === path ? "text-black" : "text-white";
   };
 
   // Handle product link click and close submenu
