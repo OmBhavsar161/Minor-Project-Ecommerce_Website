@@ -1,16 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
-
+import React, { useState, useEffect, useRef, useContext } from "react";
 import logo from "../Assets/logo.png";
 import cart_icon from "../Assets/cart_icon.png";
 import smartwatch from "../Assets/smartwatchimg.png";
 import headphone from "../Assets/headphonesimg.png";
 import tws from "../Assets/tws.png";
 import { Link } from "react-router-dom";
+import { ShopContext } from "../../Context/ShopContext";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
   const menuRef = useRef(null); // Ref for the menu element
+  const {getTotalCartItems} = useContext(ShopContext);
 
   // Toggle main menu visibility
   const toggleMenu = () => {
@@ -179,7 +180,7 @@ function Navbar() {
                 className="pr-2 w-8 lg:w-10 filter grayscale invert"
               />
               <div className="absolute top-0 right-0 flex w-4 h-4 lg:w-6 lg:h-6 justify-center items-center bg-red-600 text-white lg:-mt-2 lg:-mr-2 -mt-1 -mr-1 rounded-full">
-                0
+                {getTotalCartItems()}
               </div>
             </div>
           </button>
