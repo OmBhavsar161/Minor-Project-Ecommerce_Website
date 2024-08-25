@@ -85,7 +85,7 @@ function Navbar() {
           {isMenuOpen && (
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-gray-500 rounded-box z-50 mt-3 w-52 p-4 shadow text-white gap-3"
             >
               <li>
                 <Link to="/" onClick={() => setIsMenuOpen(false)}>
@@ -95,7 +95,7 @@ function Navbar() {
               <li>
                 <button onClick={toggleSubmenu}>Products</button>
                 {isSubmenuOpen && (
-                  <ul className="p-2 w-48 bg-white absolute left-0 top-full z-50 shadow-lg rounded-xl">
+                  <ul className="p-2 w-48 bg-gray-600 absolute left-0 top-full z-50 shadow-lg rounded-xl space-y-2">
                     <li>
                       <button onClick={() => handleProductClick("/smartwatch")}>
                         Smart Watch
@@ -197,7 +197,7 @@ function Navbar() {
           </li>
         </ul>
       </div>
-      <div className="navbar-end space-x-4 lg:space-x-8 pr-6">
+      <div className="navbar-end space-x-4 lg:space-x-8 lg:pr-6">
         <Link to="/login">
           <button className="bg-slate-200 lg:px-4 lg:py-2 px-4 py-1 rounded-2xl lg:active:bg-slate-300 lg:active:text-black active:bg-gray-700 active:text-white lg:hover:ring-4 lg:hover:ring-blue-600 transition-all ease-linear">
             Login
@@ -223,25 +223,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
-
-
-
-{
-  /* <div className='navbar'>
-      <div className='nav-logo'>
-        <img src={logo} alt="" />
-        <p>SHOPPER</p>
-      </div>
-      <ul className='nav-menu'>
-        <li>Home</li>
-        <li>Products</li>
-        <li>New Launches</li>
-        <li>Support</li>
-      </ul>
-      <div className="nav-login-cart">
-        <button>Login</button>
-        <img src={cart_icon} alt="" />
-      </div>
-    </div> */
-}
