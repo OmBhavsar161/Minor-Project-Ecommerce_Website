@@ -6,21 +6,18 @@ export const ShopContext = createContext(null);
 const getDefaultCart = (allProductData) => {
     let cart = {};
     for (let index = 0; index < allProductData.length; index++) {
-        cart[index] = 0;
+        cart[allProductData[index].id] = 0; // Use product ID instead of index
     }
-    return cart; // Return the cart object
+    return cart;
 };
 
 const ShopContextProvider = (props) => {
-    // Initialize state for all products
     const [all_product, setAllProduct] = useState(allProductData);
-    
-    // Initialize state for cart items
     const [cartItems, setCartItems] = useState(() => getDefaultCart(allProductData));
 
     useEffect(() => {
         console.log("Cart Items Updated:", cartItems);
-    }, [cartItems]); // Log cart items when they change
+    }, [cartItems]);
 
     const addToCart = (itemId, quantity) => {
         setCartItems((prev) => {
@@ -30,14 +27,36 @@ const ShopContextProvider = (props) => {
     };
 
     const removeFromCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) - 1 }));
+        setCartItems((prev) => {
+            const newCart = { ...prev };
+            if (newCart[itemId] > 1) {
+                newCart[itemId] -= 1;
+            } else {
+                delete newCart[itemId];
+            }
+            return newCart;
+        });
+    };
+
+    const getTotalCartAmount = () => {
+        let totalAmount = 0;
+        for (const item in cartItems) {
+            if (cartItems[item] > 0) {
+                let itemInfo = all_product.find((product) => product.id === Number(item));
+                if (itemInfo) {
+                    totalAmount += itemInfo.new_price * cartItems[item];
+                }
+            }
+        }
+        return totalAmount;
     };
 
     const contextValue = {
-        all_product, 
-        cartItems, 
-        addToCart, 
+        all_product,
+        cartItems,
+        addToCart,
         removeFromCart,
+        getTotalCartAmount,
     };
 
     return (
