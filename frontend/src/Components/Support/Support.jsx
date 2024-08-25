@@ -48,7 +48,7 @@ const Support = () => {
 
   return (
     <div className="container mx-auto p-6 bg-white rounded-lg shadow-md">
-      <form onSubmit={handleSubmit} className="w-[60%] mx-auto border-2 p-12 bg-gray-50">
+      <form onSubmit={handleSubmit} className="w-[60%] mx-auto border-2 p-12 bg-gray-50  mb-10">
         <h1 className="text-4xl font-semibold text-gray-800 mb-6">Contact Us</h1>
         {submitted && (
           <div className="text-green-600 font-semibold mb-4">

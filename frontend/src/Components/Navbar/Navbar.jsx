@@ -46,7 +46,7 @@ function Navbar() {
 
   // Function to determine if a menu item is active
   const isActive = (path) => {
-    return location.pathname === path ? "text-black" : "text-white";
+    return location.pathname === path ? "border-b-2" : "text-white";
   };
 
   // Handle product link click and close submenu
@@ -144,7 +144,7 @@ function Navbar() {
       </div>
       <div className="navbar-center hidden lg:flex">
         {/* Desktop Menu */}
-        <ul className="menu menu-horizontal px-1 space-x-10 text-white text-lg">
+        <ul className=" menu-horizontal px-1 space-x-20 text-white text-lg">
           <li>
             <Link to="/">
               <button className={isActive("/")}>Home</button>
@@ -157,7 +157,7 @@ function Navbar() {
           >
             <button className={isActive("/products")}>Products</button>
             {isSubmenuOpen && (
-              <ul className="p-2 w-80 bg-white text-black ring-2 ring-blue-400 absolute left-0 top-full z-50 shadow-lg rounded-xl">
+              <ul className="menu p-2 w-80 bg-white text-black ring-2 ring-blue-400 absolute left-0 top-full z-50 shadow-lg rounded-xl text-xl">
                 <li>
                   <button onClick={() => handleProductClick("/smartwatch")}>
                     <div className="flex items-center gap-10 py-4">
