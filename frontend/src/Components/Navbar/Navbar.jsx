@@ -86,7 +86,7 @@ function Navbar() {
           {isMenuOpen && (
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-gray-500 rounded-box z-50 mt-3 w-52 p-4 shadow text-white gap-3"
+              className="space-y-4 dropdown-content bg-gray-500 rounded-box z-50 mt-3 w-52 p-6 shadow text-white gap-3"
             >
               <li>
                 <Link to="/" onClick={() => setIsMenuOpen(false)}>
@@ -96,7 +96,7 @@ function Navbar() {
               <li>
                 <button onClick={toggleSubmenu}>Products</button>
                 {isSubmenuOpen && (
-                  <ul className="p-2 w-48 bg-gray-600 absolute left-0 top-full z-50 shadow-lg rounded-xl space-y-2">
+                  <ul className="p-4 w-48 ml-8 bg-gray-600 absolute left-0 z-50 shadow-lg rounded-xl space-y-3">
                     <li>
                       <button onClick={() => handleProductClick("/smartwatch")}>
                         Smart Watch
@@ -137,7 +137,7 @@ function Navbar() {
             className="hidden md:block w-10 md:w-24 lg:w-24"
           />
           <Link to="/" onClick={() => setIsMenuOpen(false)}>
-            <p className="text-2xl lg:text-4xl font-sriracha text-white cursor-pointer">
+            <p className="text-2xl lg:text-4xl font-sriracha text-white cursor-pointer sm:pl-2">
               Voice
             </p>
           </Link>
@@ -162,7 +162,11 @@ function Navbar() {
                 <li>
                   <button onClick={() => handleProductClick("/smartwatch")}>
                     <div className="flex items-center gap-10 py-4">
-                      <img src={smartwatch} alt="Smart Watch" className="w-16" />
+                      <img
+                        src={smartwatch}
+                        alt="Smart Watch"
+                        className="w-16"
+                      />
                       Smart Watch
                     </div>
                   </button>
