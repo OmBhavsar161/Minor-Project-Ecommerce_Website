@@ -1,5 +1,6 @@
 import React from 'react'
-import footer_logo from "../Assets/logo_big.png"
+// import footer_logo from "../Assets/logo_big.png"
+import footer_logo from "../Assets/logo_footer2.svg"
 import instgram_icon from "../Assets/instagram_icon.png"
 import pintester_icon from "../Assets/pintester_icon.png"
 import whatsapp_icon from "../Assets/whatsapp_icon.png"
@@ -7,9 +8,9 @@ import whatsapp_icon from "../Assets/whatsapp_icon.png"
 const Footer = () => {
   return (
     <div className='flex flex-col justify-center items-center gap-[50px] mt-10'>
-      <div className="flex items-center gap-[20px] ">
-        <img src={footer_logo} alt="" className='w-20'/>
-        <p className='font-sriracha text-gray-800 font-bold text-5xl ml-6'>Voice</p>
+      <div className="flex items-center ">
+        <img src={footer_logo} alt="" className='w-[180px]'/>
+        <p className='font-sriracha text-gray-800 font-bold text-5xl'>Voice</p>
 
       </div>
       <ul className="flex list-none gap-[50px] text-gray-800 font-[20px]">

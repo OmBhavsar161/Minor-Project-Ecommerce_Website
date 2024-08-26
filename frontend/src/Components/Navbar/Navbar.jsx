@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "../Assets/logo.png";
+// import logo from "../Assets/logo.png";
+import logo from "../Assets/logo_voice2.svg";
 import cart_icon from "../Assets/cart_icon.png";
 import smartwatch from "../Assets/smartwatchimg.png";
 import headphone from "../Assets/headphonesimg.png";
@@ -129,11 +130,11 @@ function Navbar() {
             </ul>
           )}
         </div>
-        <div className="flex justify-center items-center gap-4 lg:gap-10 pl-4">
+        <div className="flex justify-center items-center gap-4 lg:gap-4 lg:pl-10">
           <img
             src={logo}
             alt="Logo"
-            className="hidden md:block w-10 md:w-24 lg:w-16"
+            className="hidden md:block w-10 md:w-24 lg:w-24"
           />
           <Link to="/" onClick={() => setIsMenuOpen(false)}>
             <p className="text-2xl lg:text-4xl font-sriracha text-white cursor-pointer">
