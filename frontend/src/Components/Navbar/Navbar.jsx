@@ -130,14 +130,14 @@ function Navbar() {
             </ul>
           )}
         </div>
-        <div className="flex justify-center items-center gap-4 lg:gap-4 lg:pl-10">
+        <div className="flex justify-center items-center gap-4 lg:gap-4 xl:pl-10">
           <img
             src={logo}
             alt="Logo"
-            className="hidden md:block w-10 md:w-24 lg:w-24"
+            className="hidden md:block w-10 md:w-24 xl:w-24 lg:w-20"
           />
           <Link to="/" onClick={() => setIsMenuOpen(false)}>
-            <p className="text-2xl lg:text-4xl font-sriracha text-white cursor-pointer sm:pl-2">
+            <p className="text-2xl xl:text-4xl lg:text-3xl font-sriracha text-white cursor-pointer sm:pl-2">
               Voice
             </p>
           </Link>
@@ -145,7 +145,7 @@ function Navbar() {
       </div>
       <div className="navbar-center hidden lg:flex">
         {/* Desktop Menu */}
-        <ul className=" menu-horizontal px-1 space-x-20 text-white text-lg">
+        <ul className=" menu-horizontal px-1 xl:space-x-20 lg:space-x-10 lg:ml-6 xl:ml-6 text-white text-lg">
           <li>
             <Link to="/">
               <button className={isActive("/")}>Home</button>
@@ -158,10 +158,10 @@ function Navbar() {
           >
             <button className={isActive("/products")}>Products</button>
             {isSubmenuOpen && (
-              <ul className="menu p-2 w-80 bg-white text-black ring-2 ring-blue-400 absolute left-0 top-full z-50 shadow-lg rounded-xl text-xl">
+              <ul className="menu p-2 xl:w-80 lg:w-72 bg-white text-black ring-2 ring-blue-400 absolute left-0 top-full z-50 shadow-lg rounded-xl xl:text-xl lg:text-lg">
                 <li>
                   <button onClick={() => handleProductClick("/smartwatch")}>
-                    <div className="flex items-center gap-10 py-4">
+                    <div className="flex items-center xl:gap-10 xl:py-4 lg:gap-8 lg:py-2">
                       <img
                         src={smartwatch}
                         alt="Smart Watch"
@@ -173,7 +173,7 @@ function Navbar() {
                 </li>
                 <li>
                   <button onClick={() => handleProductClick("/headphones")}>
-                    <div className="flex items-center gap-10 py-4">
+                    <div className="flex items-center xl:gap-10 xl:py-4 lg:gap-8 lg:py-2">
                       <img src={headphone} alt="Headphones" className="w-16" />
                       Headphones
                     </div>
@@ -181,7 +181,7 @@ function Navbar() {
                 </li>
                 <li>
                   <button onClick={() => handleProductClick("/tws")}>
-                    <div className="flex items-center gap-10 py-4">
+                    <div className="flex items-center xl:gap-10 xl:py-4 lg:gap-8 lg:py-2">
                       <img src={tws} alt="TWS" className="w-16" />
                       TWS
                     </div>
@@ -202,9 +202,9 @@ function Navbar() {
           </li>
         </ul>
       </div>
-      <div className="navbar-end space-x-4 lg:space-x-8 lg:pr-6">
+      <div className="navbar-end  xl:space-x-8 xl:pr-6 lg:pr-2 lg:space-x-4 sm:space-x-4">
         <Link to="/login">
-          <button className="bg-slate-200 lg:px-4 lg:py-2 px-4 py-1 rounded-2xl lg:active:bg-slate-300 lg:active:text-black active:bg-gray-700 active:text-white lg:hover:ring-4 lg:hover:ring-blue-600 transition-all ease-linear">
+          <button className="bg-slate-200 lg:px-4 lg:py-2 sm:px-4 sm:py-1 rounded-2xl lg:active:bg-slate-300 lg:active:text-black active:bg-gray-700 active:text-white md:hover:ring-4 md:hover:ring-blue-600 transition-all ease-linear">
             Login
           </button>
         </Link>
@@ -216,7 +216,7 @@ function Navbar() {
                 alt="Cart Icon"
                 className="pr-2 w-8 lg:w-10 filter grayscale invert"
               />
-              <div className="absolute top-0 right-0 flex w-4 h-4 lg:w-6 lg:h-6 justify-center items-center bg-red-600 text-white lg:-mt-2 lg:-mr-2 -mt-1 -mr-1 rounded-full">
+              <div className="absolute top-0 right-0 flex w-4 h-4 lg:w-6 lg:h-6 justify-center items-center bg-red-600 text-white lg:-mt-2 lg:-mr-2 -mt-1 -mr-1 rounded-full sm:text-xs xl:text-sm lg:text-sm">
                 {getTotalCartItems()}
               </div>
             </div>

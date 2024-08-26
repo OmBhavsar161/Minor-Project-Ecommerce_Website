@@ -8,7 +8,7 @@ export default {
         sriracha: ["Sriracha", "cursive"], // Add Sriracha as a custom font family
       },
       screens: {
-        sm: "420px", // Small screens and up "620"
+        sm: "620px", // Small screens and up "620"
         md: "768px", // Medium screens and up
         lg: "1024px", // Large screens and up
         xl: "1280px", // Extra-large screens and up
