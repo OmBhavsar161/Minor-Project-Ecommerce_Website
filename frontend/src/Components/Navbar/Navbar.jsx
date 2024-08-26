@@ -145,7 +145,7 @@ function Navbar() {
       </div>
       <div className="navbar-center hidden lg:flex">
         {/* Desktop Menu */}
-        <ul className=" menu-horizontal px-1 xl:space-x-20 lg:space-x-10 lg:ml-6 xl:ml-6 text-white text-lg">
+        <ul className=" menu-horizontal px-1 items-center xl:space-x-16 lg:space-x-10 lg:ml-6 xl:ml-6 text-white text-lg">
           <li>
             <Link to="/">
               <button className={isActive("/")}>Home</button>
