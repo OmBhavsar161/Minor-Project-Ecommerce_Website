@@ -139,10 +139,11 @@ function Navbar() {
           )}
         </div>
         <div className="flex justify-center items-center gap-4 xl:pl-10 lg:gap-4 md:gap-0">
+          {/* Voice Logo */}
           <img
             src={logo}
             alt="Logo"
-            className="hidden md:block w-10 md:w-24 xl:w-24 lg:w-20"
+            className="hidden md:block w-10 md:w-20 xl:w-24 lg:w-20"
           />
           <Link to="/" onClick={() => setIsMenuOpen(false)}>
             <p className="text-2xl xl:text-4xl lg:text-3xl font-sriracha text-white cursor-pointer sm:pl-2">
@@ -153,7 +154,7 @@ function Navbar() {
       </div>
       <div className="navbar-center hidden md:flex">
         {/* Desktop Menu */}
-        <ul className=" menu-horizontal px-1 items-center xl:space-x-16 xl:ml-6 lg:space-x-10 lg:ml-6 md:space-x-6 md:ml-10 text-white text-lg  md:text-base">
+        <ul className=" menu-horizontal px-1 items-center xl:space-x-16 xl:ml-6 lg:space-x-10 lg:ml-6 md:space-x-6 md:ml-10 text-white text-lg  xl:text-lg lg:text-lg md:text-base">
           <li>
             <Link to="/">
               <button className={isActive("/")}>Home</button>
