@@ -138,7 +138,7 @@ function Navbar() {
             </ul>
           )}
         </div>
-        <div className="flex justify-center items-center gap-4 xl:pl-10 lg:gap-4 md:gap-0">
+        <div className="flex justify-center items-center gap-4 xl:pl-10 md:gap-0">
           {/* Voice Logo */}
           <img
             src={logo}
