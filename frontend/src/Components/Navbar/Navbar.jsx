@@ -72,7 +72,7 @@ function Navbar() {
           <div
             tabIndex={0}
             role="button"
-            className="btn btn-ghost lg:hidden"
+            className="btn btn-ghost md:hidden"
             onClick={toggleMenu} // Toggle the menu on click
           >
             <svg
@@ -138,7 +138,7 @@ function Navbar() {
             </ul>
           )}
         </div>
-        <div className="flex justify-center items-center gap-4 lg:gap-4 xl:pl-10">
+        <div className="flex justify-center items-center gap-4 xl:pl-10 lg:gap-4 md:gap-0">
           <img
             src={logo}
             alt="Logo"
@@ -151,9 +151,9 @@ function Navbar() {
           </Link>
         </div>
       </div>
-      <div className="navbar-center hidden lg:flex">
+      <div className="navbar-center hidden md:flex">
         {/* Desktop Menu */}
-        <ul className=" menu-horizontal px-1 items-center xl:space-x-16 lg:space-x-10 lg:ml-6 xl:ml-6 text-white text-lg">
+        <ul className=" menu-horizontal px-1 items-center xl:space-x-16 xl:ml-6 lg:space-x-10 lg:ml-6 md:space-x-6 md:ml-10 text-white text-lg  md:text-base">
           <li>
             <Link to="/">
               <button className={isActive("/")}>Home</button>
@@ -166,10 +166,10 @@ function Navbar() {
           >
             <button className={isActive("/products")}>Products</button>
             {isSubmenuOpen && (
-              <ul className="menu p-2 xl:w-80 lg:w-72 bg-white text-black ring-2 ring-blue-400 absolute left-0 top-full z-50 shadow-lg rounded-xl xl:text-xl lg:text-lg">
+              <ul className="menu p-2 xl:w-80 md:w-60 lg:w-72 bg-white text-black ring-2 ring-blue-400 absolute left-0 top-full z-50 shadow-lg rounded-xl xl:text-xl lg:text-lg">
                 <li>
                   <button onClick={() => handleProductClick("/smartwatch")}>
-                    <div className="flex items-center xl:gap-10 xl:py-4 lg:gap-8 lg:py-2">
+                    <div className="flex items-center xl:gap-10 xl:py-4 lg:gap-8 lg:py-2 md:gap-6 md:py-1">
                       <img
                         src={smartwatch}
                         alt="Smart Watch"
@@ -181,7 +181,7 @@ function Navbar() {
                 </li>
                 <li>
                   <button onClick={() => handleProductClick("/headphones")}>
-                    <div className="flex items-center xl:gap-10 xl:py-4 lg:gap-8 lg:py-2">
+                    <div className="flex items-center xl:gap-10 xl:py-4 lg:gap-8 lg:py-2 md:gap-6 md:py-1">
                       <img src={headphone} alt="Headphones" className="w-16" />
                       Headphones
                     </div>
@@ -189,7 +189,7 @@ function Navbar() {
                 </li>
                 <li>
                   <button onClick={() => handleProductClick("/tws")}>
-                    <div className="flex items-center xl:gap-10 xl:py-4 lg:gap-8 lg:py-2">
+                    <div className="flex items-center xl:gap-10 xl:py-4 lg:gap-8 lg:py-2 md:gap-6 md:py-1">
                       <img src={tws} alt="TWS" className="w-16" />
                       TWS
                     </div>
@@ -212,7 +212,7 @@ function Navbar() {
       </div>
       <div className="navbar-end  xl:space-x-8 xl:pr-6 lg:pr-2 lg:space-x-4 sm:space-x-4">
         <Link to="/login">
-          <button className="bg-slate-200 lg:px-4 lg:py-2 sm:px-4 sm:py-1 rounded-2xl lg:active:bg-slate-300 lg:active:text-black active:bg-gray-700 active:text-white md:hover:ring-4 md:hover:ring-blue-600 transition-all ease-linear">
+          <button className="bg-slate-200 xl:px-4 xl:py-2 lg:px-4 lg:py-[5px] sm:px-4 sm:py-1 rounded-2xl lg:active:bg-slate-300 lg:active:text-black active:bg-gray-700 active:text-white md:hover:ring-4 md:hover:ring-blue-600 transition-all ease-linear">
             Login
           </button>
         </Link>
