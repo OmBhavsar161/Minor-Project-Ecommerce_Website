@@ -45,18 +45,18 @@ function Navbar() {
     };
   }, []);
 
- // Updated isActive function to handle the "Products" menu
- const isActive = (path) => {
-  if (location.pathname === path) {
-    return "border-b-2 border-white";
-  } else if (
-    ["/smartwatch", "/headphones", "/tws"].includes(location.pathname) &&
-    path === "/products"
-  ) {
-    return "border-b-2 border-white";
-  }
-  return "text-white";
-};
+  // Updated isActive function to handle the "Products" menu
+  const isActive = (path) => {
+    if (location.pathname === path) {
+      return "border-b-2 border-white";
+    } else if (
+      ["/smartwatch", "/headphones", "/tws"].includes(location.pathname) &&
+      path === "/products"
+    ) {
+      return "border-b-2 border-white";
+    }
+    return "text-white";
+  };
 
   // Handle product link click and close submenu
   const handleProductClick = (path) => {
