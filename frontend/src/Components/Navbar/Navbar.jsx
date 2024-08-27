@@ -66,7 +66,7 @@ function Navbar() {
   };
 
   return (
-    <div className="navbar bg-gray-500" ref={menuRef}>
+    <div className="navbar bg-gray-600" ref={menuRef}>
       <div className="navbar-start">
         <div className="dropdown">
           <div
@@ -218,7 +218,7 @@ function Navbar() {
           </button>
         </Link>
         <Link to="/cart">
-          <button className="p-2 hover:bg-gray-600 hover:bg-opacity-30 rounded-lg transition-all ease-out delay-50">
+          <button className="p-2 hover:bg-gray-700 hover:bg-opacity-30 rounded-lg transition-all ease-out delay-50">
             <div className="relative">
               <img
                 src={cart_icon}
