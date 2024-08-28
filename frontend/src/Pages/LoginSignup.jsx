@@ -38,7 +38,7 @@ const LoginSignup = () => {
           </div>
           <button className="bg-indigo-600 text-white ring-1 ring-indigo-500 px-4 py-2 rounded-full hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-700 mt-4">
             Continue
-          </button>
+          </button> 
         </div>
         <p className="mt-6 text-center">Already have an account? <span className="text-blue-600 cursor-pointer">Login Here</span></p>
         <div className="flex items-center justify-center mt-4">
