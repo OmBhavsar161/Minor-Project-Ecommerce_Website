@@ -55,6 +55,29 @@ const ShopContextProvider = (props) => {
     return totalAmount;
   };
 
+  // Total cart amount converted in USD
+  const getTotalCartAmountInUSD = () => {
+    let totalAmount = 0;
+    const exchangeRateToUSD = 0.01192; // INR to USD exchange rate (1 USD = 83.91 INR)
+  
+    for (const item in cartItems) {
+      if (cartItems[item] > 0) {
+        let itemInfo = all_product.find(
+          (product) => product.id === Number(item)
+        );
+        if (itemInfo) {
+          totalAmount += itemInfo.new_price * cartItems[item];
+        }
+      }
+    }
+  
+    // Convert to USD and round to 2 decimal places
+  const totalAmountInUSD = (totalAmount * exchangeRateToUSD).toFixed(2);
+  
+    return totalAmountInUSD;
+  };
+  
+
   const getTotalCartItems = () => {
     let totalItem = 0;
     for (const item in cartItems) {
@@ -72,6 +95,7 @@ const ShopContextProvider = (props) => {
     removeFromCart,
     getTotalCartAmount,
     getTotalCartItems,
+    getTotalCartAmountInUSD,
   };
 
   return (

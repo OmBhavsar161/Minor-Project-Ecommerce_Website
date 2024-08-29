@@ -1,13 +1,66 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import remove_icon from "../Assets/delete_icon.svg";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe('pk_test_51Pt0JJRsPZLVhKagcrJ3N3QjNLg5S2sYrF1Fy1MmdnsZzZ7KE9P76bWJcZIRNxAWvPuewGNm1vKbs9lLwPgkmBTG00jDIDyYo7');
 
 const formatPrice = (price) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 const CartItems = () => {
-  const { all_product, cartItems, removeFromCart, getTotalCartAmount } = useContext(ShopContext);
+  const { all_product, cartItems, removeFromCart, getTotalCartAmount, getTotalCartAmountInUSD } = useContext(ShopContext);
+
+  // Payment Module Integration
+  const makePayment = async () => {
+    const stripe = await stripePromise;
+
+    const body = {
+      items: Object.keys(cartItems)
+        .map(itemId => {
+          const product = all_product.find(p => p.id === Number(itemId));
+          return {
+            id: product.id,
+            name: product.name,
+            price: product.new_price,
+            quantity: cartItems[itemId]
+          };
+        })
+        .filter(item => item.quantity > 0), // Filter out items with zero quantity
+      totalAmountInUSD: getTotalCartAmountInUSD()
+    };
+
+    console.log("Body for checkout session:", body); // Add this line for debugging
+
+    const headers = {
+      "Content-Type": "application/json"
+    };
+
+    try {
+      const response = await fetch('http://localhost:4000/create-checkout-session', {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const session = await response.json();
+
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: session.sessionId,
+      });
+
+      if (error) {
+        console.error('Error redirecting to Stripe Checkout:', error);
+      }
+    } catch (error) {
+      console.error('Error creating payment session:', error);
+    }
+  }
 
   return (
     <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
@@ -70,10 +123,14 @@ const CartItems = () => {
             <hr />
           </div>
           <div className="flex justify-between items-center mt-4 text-gray-800 font-semibold">
-            <h3 className="text-lg">Total</h3>
+            <h3 className="text-lg">Total (₹)</h3>
             <h3 className="text-lg">₹{formatPrice(getTotalCartAmount())}</h3>
           </div>
-          <button className="w-full bg-green-600 text-white uppercase py-3 px-4 mt-6 rounded-lg hover:bg-green-700 transition-colors">
+          <div className="flex justify-between items-center mt-4 text-gray-800 font-semibold">
+            <h3 className="text-lg">Total ($)</h3>
+            <h3 className="text-lg">${formatPrice(getTotalCartAmountInUSD())}</h3>
+          </div>
+          <button onClick={makePayment} className="w-full bg-green-600 text-white uppercase py-3 px-4 mt-6 rounded-lg hover:bg-green-700 transition-colors">
             Proceed To Checkout
           </button>
         </div>
