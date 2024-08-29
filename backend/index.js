@@ -135,36 +135,36 @@ app.post("/removeproduct", async (req, res) => {
   });
 });
 
-// // Stripe Payment Endpoint
-// app.post("/create-checkout-session", async (req, res) => {
-//   try {
-//     const { items } = req.body; // Extract items from request body
+// Stripe Payment Endpoint
+app.post("/create-checkout-session", async (req, res) => {
+  try {
+    const { items } = req.body; // Extract items from request body
 
-//     // Create a checkout session with Stripe
-//     const session = await stripe.checkout.sessions.create({
-//       payment_method_types: ["card"], // Payment methods accepted
-//       line_items: items.map((item) => ({
-//         price_data: {
-//           currency: "usd", // Currency for the payment
-//           product_data: {
-//             name: item.name, // Name of the product
-//           },
-//           unit_amount: convertINRToUSD(item.price), // Price in cents (USD)
-//         },
-//         quantity: item.quantity, // Quantity of the product
-//       })),
-//       mode: "payment", // Mode of the checkout session
-//       success_url: "https://your-domain.com/success", // Redirect URL after successful payment
-//       cancel_url: "https://your-domain.com/cancel", // Redirect URL after payment cancellation
-//     });
+    // Create a checkout session with Stripe
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"], // Payment methods accepted
+      line_items: items.map((item) => ({
+        price_data: {
+          currency: "usd", // Currency for the payment
+          product_data: {
+            name: item.name, // Name of the product
+          },
+          unit_amount: convertINRToUSD(item.price), // Price in cents (USD)
+        },
+        quantity: item.quantity, // Quantity of the product
+      })),
+      mode: "payment", // Mode of the checkout session
+      success_url: "https://your-domain.com/success", // Redirect URL after successful payment
+      cancel_url: "https://your-domain.com/cancel", // Redirect URL after payment cancellation
+    });
 
-//     // Send session ID to the client to redirect to the Stripe checkout
-//     res.json({ sessionId: session.id });
-//   } catch (error) {
-//     console.error("Error creating checkout session:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
+    // Send session ID to the client to redirect to the Stripe checkout
+    res.json({ sessionId: session.id });
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 
 // Start Server
