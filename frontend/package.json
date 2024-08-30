@@ -17,7 +17,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",
-    "tailwindcss-filters": "^3.0.0"
+    "tailwindcss-filters": "^3.0.0",
+    "vite-plugin-mkcert": "^1.17.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",

@@ -154,8 +154,8 @@ app.post("/create-checkout-session", async (req, res) => {
         quantity: item.quantity, // Quantity of the product
       })),
       mode: "payment", // Mode of the checkout session
-      success_url: "https://your-domain.com/success", // Redirect URL after successful payment
-      cancel_url: "https://your-domain.com/cancel", // Redirect URL after payment cancellation
+      success_url: "https://localhost:5173/success", // Redirect URL after successful payment
+      cancel_url: "https://localhost:5173/cancel", // Redirect URL after payment cancellation
     });
 
     // Send session ID to the client to redirect to the Stripe checkout
