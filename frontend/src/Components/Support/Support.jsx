@@ -63,7 +63,7 @@ const Support = () => {
       }
     }
   };
-
+ 
   // On Submitting Form page is automatically scroll to top
   useEffect(() => {
     if (submitted) {

@@ -195,7 +195,7 @@ app.post("/support", async (req, res) => {
       .status(500)
       .json({ success: false, message: "Failed to submit support request." });
   }
-});
+}); 
 
 
 // Stripe Payment Endpoint
