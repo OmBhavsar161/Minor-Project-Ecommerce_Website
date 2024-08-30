@@ -135,6 +135,69 @@ app.post("/removeproduct", async (req, res) => {
   });
 });
 
+// Define the SupportPage schema
+const supportSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  phoneNumber: {
+    type: String,
+    required: true,
+  },
+  productId: {
+    type: String,
+    required: true,
+  },
+  issueDescription: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// Create a Support model from the schema
+const Support = mongoose.model("support_form_data", supportSchema);
+
+app.post("/support", async (req, res) => {
+  try {
+    // Extract form data from request body
+    const { name, email, phoneNumber, productId, issueDescription } = req.body;
+
+    // Create a new support request document
+    const supportRequest = new Support({
+      name,
+      email,
+      phoneNumber,
+      productId,
+      issueDescription,
+    });
+
+    // Save the support request to the database
+    await supportRequest.save();
+
+    // Send a success response
+    res.json({
+      success: true,
+      message:
+        "Your response has been recorded. Our team will contact you within 24 hours.",
+    });
+  } catch (error) {
+    console.error("Error saving support request:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to submit support request." });
+  }
+});
+
+
 // Stripe Payment Endpoint
 app.post("/create-checkout-session", async (req, res) => {
   try {

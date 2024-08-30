@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Support = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +11,7 @@ const Support = () => {
 
   const [formErrors, setFormErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [serverError, setServerError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,21 +31,45 @@ const Support = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Simulate form submission
-      setSubmitted(true);
-      setFormData({
-        name: "",
-        email: "",
-        phoneNumber: "",
-        productId: "",
-        issueDescription: "",
-      });
-      setFormErrors({});
+      try {
+        const response = await fetch("http://localhost:4000/support", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          setSubmitted(true);
+          setServerError('');
+          setFormData({
+            name: "",
+            email: "",
+            phoneNumber: "",
+            productId: "",
+            issueDescription: "",
+          });
+          setFormErrors({});
+        } else {
+          setServerError("Failed to submit the form. Please try again.");
+        }
+      } catch (error) {
+        setServerError("Error submitting the form. Please try again.");
+        console.error("Error submitting the form:", error);
+      }
     }
   };
+
+  // On Submitting Form page is automatically scroll to top
+  useEffect(() => {
+    if (submitted) {
+      window.scrollTo(0, 0);
+    }
+  }, [submitted]);
 
   return (
     <div className="container mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -53,6 +78,11 @@ const Support = () => {
         {submitted && (
           <div className="text-green-600 font-semibold mb-4">
             Your response has been recorded. Our team will contact you within 24 hours.
+          </div>
+        )}
+        {serverError && (
+          <div className="text-red-600 font-semibold mb-4">
+            {serverError}
           </div>
         )}
         <div className="grid gap-4 mb-4">
@@ -116,13 +146,14 @@ const Support = () => {
             ></textarea>
             {formErrors.issueDescription && <p className="text-red-500 text-sm">{formErrors.issueDescription}</p>}
           </div>
-          <button
-            type="submit"
-            className="mt-4 w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors"
-          >
-            Submit
-          </button>
         </div>
+        <button
+          type="submit"
+          className={`mt-4 w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors ${submitted ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={submitted}
+        >
+          Submit
+        </button>
       </form>
     </div>
   );
