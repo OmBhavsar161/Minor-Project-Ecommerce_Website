@@ -140,11 +140,13 @@ function Navbar() {
         </div>
         <div className="flex justify-center items-center gap-4 xl:pl-10 md:gap-0">
           {/* Voice Logo */}
+          <Link to="/">
           <img
             src={logo}
             alt="Logo"
             className="hidden md:block w-10 md:w-20 xl:w-24 lg:w-20"
           />
+          </Link>
           <Link to="/" onClick={() => setIsMenuOpen(false)}>
             <p className="text-2xl xl:text-4xl lg:text-3xl font-sriracha text-white cursor-pointer sm:pl-2">
               Voice

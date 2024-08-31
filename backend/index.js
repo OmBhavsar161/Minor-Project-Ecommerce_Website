@@ -1,4 +1,5 @@
-const port = 4000;
+require("dotenv").config();
+const port = process.env.PORT;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -6,10 +7,8 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
-const stripe = require("stripe")(
-  "sk_test_51Pt0JJRsPZLVhKag4TpcqYKwxraNtSfcasKENJ6YXeYD58N6axMt5sh9IPXjzfkOY2qqBCankYGYV3zYOL7nD9QY00p6nuMbx7"
-);
 
+const stripe = require("stripe")(process.env.STRIP_BACKEND_KEY);
 
 const INR_TO_USD_CONVERSION_RATE = 83.91;
 
@@ -17,15 +16,12 @@ const convertINRToUSD = (amountInINR) => {
   return Math.round((amountInINR / INR_TO_USD_CONVERSION_RATE) * 100); // Convert to cents
 };
 
-
 app.use(express.json());
 app.use(cors());
 
 // Connect to MongoDB without deprecated options
 mongoose
-  .connect(
-    "mongodb+srv://ombhavsar2004:SrZW4BYUgSoByXmJ@cluster0.u9d68.mongodb.net/e-commerce"
-  )
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -195,8 +191,7 @@ app.post("/support", async (req, res) => {
       .status(500)
       .json({ success: false, message: "Failed to submit support request." });
   }
-}); 
-
+});
 
 // Stripe Payment Endpoint
 app.post("/create-checkout-session", async (req, res) => {
@@ -228,7 +223,6 @@ app.post("/create-checkout-session", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 // Start Server
 app.listen(port, (error) => {
