@@ -95,7 +95,7 @@ const Product = mongoose.model("Product", {
 
 // Add Product Endpoint
 app.post("/addproduct", async (req, res) => {
-  let products = await Product.find({});
+  let products = await Product.find({}); 
   let id;
   if (products.length > 0) {
     let last_product = products[products.length - 1];
@@ -114,7 +114,7 @@ app.post("/addproduct", async (req, res) => {
   });
 
   await product.save();
-  console.log("saved");
+  console.log("product saved successfully");
   res.json({
     success: true,
     name: req.body.name,
@@ -221,6 +221,18 @@ app.post("/create-checkout-session", async (req, res) => {
   } catch (error) {
     console.error("Error creating checkout session:", error);
     res.status(500).send("Internal Server Error");
+  }
+});
+
+
+  // Get All Products Endpoint
+app.get("/allproducts", async (req, res) => {
+  try {
+    const products = await Product.find({});
+    res.json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ message: "Failed to fetch products" });
   }
 });
 
