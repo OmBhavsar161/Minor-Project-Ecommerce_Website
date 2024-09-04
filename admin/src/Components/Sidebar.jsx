@@ -2,12 +2,13 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import add_product_icon from '../assets/Product_Cart.svg';
 import list_product_icon from '../assets/Product_list_icon.svg';
+import support_icon from '../assets/support_icon.svg'
 
 const Sidebar = () => {
   const location = useLocation();
 
   return (
-    <div className="flex flex-col pt-[30px] gap-[20px] w-[250px] w-max-[250px]  bg-gray-100 font-sriracha">
+    <div className="flex flex-col pt-[30px] gap-[20px] w-[250px] w-max-[250px] h-[100vh] bg-gray-100 font-sriracha">
       <Link to="/addproduct" style={{ textDecoration: "none" }}>
         <div
           className={`flex items-center justify-center my-2 mx-[20px] py-[10px] px-[10px] ring-2 gap-[20px] hover:bg-white hover:ring-2 hover:ring-blue-800 ${
@@ -26,6 +27,16 @@ const Sidebar = () => {
         >
           <img src={list_product_icon} alt="" />
           <p>Product List</p>
+        </div>
+      </Link>
+      <Link to="/supportdata" style={{ textDecoration: "none" }}>
+        <div
+          className={`flex items-center justify-center my-2 mx-[20px] py-[5px] px-[10px] ring-2 gap-[20px] hover:bg-white hover:ring-2 hover:ring-blue-800 ${
+            location.pathname === "/supportdata" ? "bg-white ring-2 ring-blue-800" : ""
+          }`}
+        >
+          <img src={support_icon} alt="" className="w-[40px]"/>
+          <p>Support Data</p>
         </div>
       </Link>
     </div>

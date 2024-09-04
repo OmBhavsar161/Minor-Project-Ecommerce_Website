@@ -141,6 +141,7 @@ app.post("/removeproduct", async (req, res) => {
   });
 });
 
+
 // Define the SupportPage schema
 const supportSchema = new mongoose.Schema({
   name: {
@@ -202,6 +203,68 @@ app.post("/support", async (req, res) => {
       .json({ success: false, message: "Failed to submit support request." });
   }
 });
+
+
+// Route to fetch all support requests
+app.get("/supportdatafetch", async (req, res) => {
+  try {
+    // Fetch all support requests from the database
+    const supportRequests = await Support.find();
+
+    // Send the support requests as a JSON response
+    res.json({
+      success: true,
+      data: supportRequests,
+    });
+  } catch (error) {
+    console.error("Error fetching support requests:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch support requests.",
+    });
+  }
+});
+
+// Route to delete a support request
+app.post("/removesupport", async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    // Validate the ID
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid ID format.",
+      });
+    }
+
+    // Delete the support request from the database
+    const result = await Support.findByIdAndDelete(id);
+
+    // Check if the document was found and deleted
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "Support request not found.",
+      });
+    }
+
+    // Send success response
+    res.json({
+      success: true,
+      message: "Support request removed successfully.",
+    });
+  } catch (error) {
+    console.error("Error removing support request:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to remove support request.",
+    });
+  }
+});
+
+
+
 
 // Stripe Payment Endpoint
 app.post("/create-checkout-session", async (req, res) => {
