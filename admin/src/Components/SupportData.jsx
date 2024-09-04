@@ -48,7 +48,7 @@ const SupportData = () => {
   };
 
   return (
-    <div className="support-data max-w-7xl mx-auto p-6">
+    <div className="support-data max-w-[1230px] mx-auto p-6">
       <h1 className="text-4xl font-bold mb-6">Support Requests</h1>
       <p className="text-lg font-semibold mb-4">Total requests: {supportRequests.length}</p>
       <div className="support-data-format grid grid-cols-6 gap-4 py-2 bg-gray-100 text-gray-700 font-semibold" style={{ gridTemplateColumns: '1fr 1.2fr 1fr 1fr 2.5fr 0.5fr' }}>
