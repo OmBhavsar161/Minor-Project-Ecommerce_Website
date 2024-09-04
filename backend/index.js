@@ -83,6 +83,10 @@ const Product = mongoose.model("Product", {
     type: Number,
     required: true,
   },
+  off_percentage: {
+    type: Number,
+    required: true,
+  },
   date: {
     type: Date,
     default: Date.now,
@@ -93,33 +97,39 @@ const Product = mongoose.model("Product", {
   },
 });
 
+
 // Add Product Endpoint
 app.post("/addproduct", async (req, res) => {
-  let products = await Product.find({}); 
-  let id;
-  if (products.length > 0) {
-    let last_product = products[products.length - 1];
-    id = last_product.id + 1;
-  } else {
-    id = 1;
+  try {
+    // Find the highest current product ID
+    let highestProduct = await Product.findOne({}, 'id').sort({ id: -1 }).limit(1);
+
+    // Calculate the next ID, starting from 40
+    let nextId = highestProduct ? highestProduct.id + 1 : 40;
+
+    const product = new Product({
+      id: nextId,
+      name: req.body.name,
+      image: req.body.image,
+      category: req.body.category,
+      new_price: req.body.new_price,
+      old_price: req.body.old_price,
+      off_percentage: req.body.off_percentage,
+    });
+
+    await product.save();
+    console.log("Product saved successfully");
+    res.json({
+      success: true,
+      name: req.body.name,
+    });
+  } catch (error) {
+    console.error("Error adding product:", error);
+    res.status(500).json({ success: false, message: "Failed to add product" });
   }
-
-  const product = new Product({
-    id: id,
-    name: req.body.name,
-    image: req.body.image,
-    category: req.body.category,
-    new_price: req.body.new_price,
-    old_price: req.body.old_price,
-  });
-
-  await product.save();
-  console.log("product saved successfully");
-  res.json({
-    success: true,
-    name: req.body.name,
-  });
 });
+
+
 
 // Remove Product Endpoint
 app.post("/removeproduct", async (req, res) => {
@@ -235,6 +245,21 @@ app.get("/allproducts", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch products" });
   }
 });
+
+// Get Single Product by ID Endpoint
+app.get("/product/:id", async (req, res) => {
+  try {
+    const product = await Product.findOne({ id: parseInt(req.params.id, 10) });
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.json(product);
+  } catch (error) {
+    console.error("Error fetching product details:", error);
+    res.status(500).json({ message: "Failed to fetch product details" });
+  }
+});
+
 
 // Start Server
 app.listen(port, (error) => {

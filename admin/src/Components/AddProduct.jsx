@@ -11,7 +11,8 @@ const AddProduct = () => {
     image: "",
     category: "smartwatch",
     new_price: "",
-    old_price: ""
+    old_price: "",
+    off_percentage: "" // Added off_percentage field
   });
 
   const handleImageChange = (e) => {
@@ -86,7 +87,8 @@ const AddProduct = () => {
             image: "",
             category: "smartwatch",
             new_price: "",
-            old_price: ""
+            old_price: "",
+            off_percentage: "" // Reset off_percentage field
           });
 
           setImage(null);
@@ -115,8 +117,6 @@ const AddProduct = () => {
     }
   };
 
-  //This is 
-
   return (
     <div className="add-product max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg space-y-8">
       <div className="add-product-itemfield">
@@ -134,7 +134,7 @@ const AddProduct = () => {
         <div className="add-procuct-item-fields flex-1">
           <p className="text-lg font-semibold text-gray-700 mb-2">Old Price</p>
           <input
-            type="text"
+            type="number"
             name="old_price"
             placeholder="Enter Old Price"
             value={productDetails.old_price}
@@ -145,7 +145,7 @@ const AddProduct = () => {
         <div className="add-procuct-item-fields flex-1">
           <p className="text-lg font-semibold text-gray-700 mb-2">Current Price</p>
           <input
-            type="text"
+            type="number"
             name="new_price"
             placeholder="Enter Current Price"
             value={productDetails.new_price}
@@ -153,6 +153,17 @@ const AddProduct = () => {
             className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
+      </div>
+      <div className="add-product-itemfield">
+        <p className="text-lg font-semibold text-gray-700 mb-2">Discount Percentage</p>
+        <input
+          type="number"
+          name="off_percentage"
+          placeholder="Enter Discount in %"
+          value={productDetails.off_percentage}
+          onChange={changeHandler}
+          className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
       </div>
       <div className="add-product-itemfield">
         <p className="text-lg font-semibold text-gray-700 mb-2">Product Category</p>

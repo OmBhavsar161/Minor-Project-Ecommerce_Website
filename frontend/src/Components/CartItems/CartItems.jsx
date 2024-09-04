@@ -1,25 +1,78 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import remove_icon from "../Assets/delete_icon.svg";
 import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe('pk_test_51Pt0JJRsPZLVhKagcrJ3N3QjNLg5S2sYrF1Fy1MmdnsZzZ7KE9P76bWJcZIRNxAWvPuewGNm1vKbs9lLwPgkmBTG00jDIDyYo7');
 
+// Define conversion rate from INR to USD
+const INR_TO_USD_CONVERSION_RATE = 83.91; // Ensure this matches your backend rate
+
 const formatPrice = (price) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+// Convert INR to USD and round to 2 decimal places
+const convertINRToUSD = (amountInINR) => {
+  return Math.round((amountInINR / INR_TO_USD_CONVERSION_RATE) * 100) / 100;
 };
 
 const CartItems = () => {
   const { all_product, cartItems, removeFromCart, getTotalCartAmount, getTotalCartAmountInUSD } = useContext(ShopContext);
 
-  // Payment Module Integration
+  // State to hold products fetched from MongoDB
+  const [mongoProducts, setMongoProducts] = useState([]);
+
+  useEffect(() => {
+    // Fetch products from MongoDB
+    const fetchMongoProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/allproducts');
+        if (response.ok) {
+          const data = await response.json();
+          setMongoProducts(data);
+        } else {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error fetching products from MongoDB:', error);
+      }
+    };
+
+    fetchMongoProducts();
+  }, []);
+
+  // Combine local and MongoDB products
+  const combinedProducts = [...all_product, ...mongoProducts];
+
+  // Function to get product details by ID (local or MongoDB)
+  const getProductById = (id) => {
+    return combinedProducts.find(p => p.id === Number(id));
+  };
+
+  // Calculate total amounts
+  const calculateTotalAmount = () => {
+    return Object.keys(cartItems).reduce((total, itemId) => {
+      const product = getProductById(itemId);
+      if (product && cartItems[itemId] > 0) {
+        return total + (product.new_price * cartItems[itemId]);
+      }
+      return total;
+    }, 0);
+  };
+
+  const calculateTotalAmountInUSD = () => {
+    const totalAmountInINR = calculateTotalAmount();
+    return convertINRToUSD(totalAmountInINR);
+  };
+
   const makePayment = async () => {
     const stripe = await stripePromise;
 
     const body = {
       items: Object.keys(cartItems)
         .map(itemId => {
-          const product = all_product.find(p => p.id === Number(itemId));
+          const product = getProductById(itemId);
           return {
             id: product.id,
             name: product.name,
@@ -27,11 +80,11 @@ const CartItems = () => {
             quantity: cartItems[itemId]
           };
         })
-        .filter(item => item.quantity > 0), // Filter out items with zero quantity
-      totalAmountInUSD: getTotalCartAmountInUSD()
+        .filter(item => item.quantity > 0),
+      totalAmountInUSD: calculateTotalAmountInUSD()
     };
 
-    console.log("Body for checkout session:", body); // Add this line for debugging
+    console.log("Body for checkout session:", body);
 
     const headers = {
       "Content-Type": "application/json"
@@ -73,7 +126,7 @@ const CartItems = () => {
         <p className="text-left">Remove</p>
       </div>
       <hr className="my-4 border-gray-300" />
-      {all_product.map((e) => {
+      {combinedProducts.map((e) => {
         if (cartItems[e.id] > 0) {
           return (
             <div key={e.id} className="grid grid-cols-6 gap-4 items-center py-4 border-b border-gray-300">
@@ -113,7 +166,7 @@ const CartItems = () => {
           <div className="space-y-4">
             <div className="flex justify-between text-gray-600">
               <p>Subtotal</p>
-              <p>₹{formatPrice(getTotalCartAmount())}</p>
+              <p>₹{formatPrice(calculateTotalAmount())}</p>
             </div>
             <hr />
             <div className="flex justify-between text-gray-600">
@@ -124,11 +177,11 @@ const CartItems = () => {
           </div>
           <div className="flex justify-between items-center mt-4 text-gray-800 font-semibold">
             <h3 className="text-lg">Total (₹)</h3>
-            <h3 className="text-lg">₹{formatPrice(getTotalCartAmount())}</h3>
+            <h3 className="text-lg">₹{formatPrice(calculateTotalAmount())}</h3>
           </div>
           <div className="flex justify-between items-center mt-4 text-gray-800 font-semibold">
             <h3 className="text-lg">Total ($)</h3>
-            <h3 className="text-lg">${formatPrice(getTotalCartAmountInUSD())}</h3>
+            <h3 className="text-lg">${formatPrice(calculateTotalAmountInUSD())}</h3>
           </div>
           <button onClick={makePayment} className="w-full bg-green-600 text-white uppercase py-3 px-4 mt-6 rounded-lg hover:bg-green-700 transition-colors">
             Proceed To Checkout

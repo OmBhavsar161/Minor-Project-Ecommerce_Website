@@ -1,23 +1,49 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import star_icon from "../Assets/star_icon.png";
 import star_dull_icon from "../Assets/star_dull_icon.png";
 import { ShopContext } from "../../Context/ShopContext";
+import { useParams } from "react-router-dom";
 
-const ProductDisplay = (props) => {
-  const { product } = props;
-  const { addToCart } = useContext(ShopContext);
-
-  // State for managing the quantity within the `- 1 +` buttons
+const ProductDisplay = () => {
+  const { productId } = useParams();
+  const { all_product, addToCart } = useContext(ShopContext);
+  const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
-  // Function to format prices with commas
+  useEffect(() => {
+    const localProduct = all_product.find((e) => e.id === Number(productId));
+
+    if (localProduct) {
+      setProduct(localProduct);
+    } else {
+      const fetchProductFromMongo = async () => {
+        try {
+          const response = await fetch(`http://localhost:4000/product/${productId}`);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const productData = await response.json();
+          setProduct(productData);
+        } catch (error) {
+          console.error("Error fetching product from MongoDB:", error);
+          // Optionally handle or set fallback product here
+        }
+      };
+
+      fetchProductFromMongo();
+    }
+  }, [productId, all_product]);
+
   const formatPrice = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  // Handlers for incrementing and decrementing the quantity
   const incrementQuantity = () => setQuantity((prev) => prev + 1);
   const decrementQuantity = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  if (!product) {
+    return <div>Loading...</div>; // Show a loading state while fetching data
+  }
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 p-6 shadow-lg rounded-lg">
@@ -130,9 +156,9 @@ const ProductDisplay = (props) => {
         </button>
 
         {/* Category and Tags */}
-        <p className="text-gray-700 mt-4">
-          <span className="font-semibold">Category:</span>{" "}
-          {product.category_view}
+        <p className="text-gray-700 mt-4 capitalize">
+          <span className="font-semibold ">Category: </span>
+          {product.category}
           <span className="ml-4 font-semibold">Tags:</span> Featured, Stylist
         </p>
       </div>
