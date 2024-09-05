@@ -30,7 +30,8 @@ const ShopCategory = (props) => {
   }, [setAllProducts]);
 
   // Combine existing and new products
-  const combinedProducts = [...products, ...newProducts];
+  // const combinedProducts = [...products, ...newProducts];
+  const combinedProducts = [...newProducts];
 
   return (
     <div className="">

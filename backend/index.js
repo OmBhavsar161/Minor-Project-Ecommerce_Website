@@ -95,6 +95,7 @@ const Product = mongoose.model("Product", {
     type: Boolean,
     default: true,
   },
+  popular: { type: Boolean, default: false }, // New field added
 });
 
 
@@ -322,6 +323,63 @@ app.get("/product/:id", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch product details" });
   }
 });
+
+// New collection Endpoint
+app.get("/newcollections", async (req, res) => {
+  try {
+    const products = await Product.find({}).sort({ date: -1 }).limit(8); // Fetch the 8 latest products
+    console.log("New Collections Fetched");
+    res.json(products); // Send the products as a response
+  } catch (error) {
+    console.error("Error fetching new collections:", error);
+    res.status(500).json({ message: "Failed to fetch new collections" });
+  }
+});
+
+//Endpoint to fetch popular Products
+app.get("/popular-products", async (req, res) => {
+  try {
+    const popularProducts = await Product.find({ popular: true });
+    res.json(popularProducts);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Error fetching popular products" });
+  }
+});
+
+app.post("/togglePopular", async (req, res) => {
+  const { id, isPopular } = req.body;
+  try {
+    // Assuming `Product` is your model
+    const product = await Product.findOneAndUpdate(
+      { id: id },
+      { $set: { popular: isPopular } },
+      { new: true }
+    );
+    res.json(product);
+  } catch (error) {
+    res.status(500).send("Error updating product status");
+  }
+});
+
+
+
+
+// // Route to update all products with the 'popular' field use Thunder-client POST request to update all existing fields
+// app.post('/update-all-products', async (req, res) => {
+//   try {
+//     const result = await Product.updateMany({}, { $set: { popular: false } });
+//     res.json({
+//       success: true,
+//       message: `Updated ${result.nModified} products`,
+//     });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: 'Error updating products' });
+//   }
+// });
+
+
 
 
 // Start Server
