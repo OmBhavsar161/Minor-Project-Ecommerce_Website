@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import delete_icon from '../assets/delete_icon.svg';
 
 const ListProduct = () => {
-  const [allproducts, setAllProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [isEditing, setIsEditing] = useState(null); // Track which product is being edited
+  const [editedProduct, setEditedProduct] = useState({}); // Store edited product details
 
   const fetchInfo = async () => {
     try {
@@ -26,7 +28,7 @@ const ListProduct = () => {
           "Accept": "application/json",
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ id: Number(productId), isPopular: !isPopular })
+        body: JSON.stringify({ id: productId, isPopular: !isPopular })
       });
 
       if (!response.ok) {
@@ -47,7 +49,7 @@ const ListProduct = () => {
           "Accept": "application/json",
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ id: Number(id) })
+        body: JSON.stringify({ id })
       });
 
       if (!response.ok) {
@@ -60,42 +62,135 @@ const ListProduct = () => {
     }
   };
 
+  const handleEditClick = (product) => {
+    setIsEditing(product.id); // Set editing mode to this product
+    setEditedProduct(product); // Initialize the edited product with current details
+  };
+
+  const handleSaveClick = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/updateproduct", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(editedProduct) // Send updated details to the backend
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update product details");
+      }
+
+      fetchInfo(); // Refetch products after saving
+      setIsEditing(null); // Exit editing mode
+    } catch (error) {
+      console.error("Error saving product:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditedProduct((prevProduct) => ({
+      ...prevProduct,
+      [name]: value
+    }));
+  };
+
   return (
     <div className="list-product max-w-7xl mx-auto p-6">
       <h1 className="text-4xl font-bold mb-6">All Products List</h1>
-      <p className="text-lg font-semibold mb-4">Total items available: {allproducts.length}</p>
-      <div className="listproduct-format-main grid grid-cols-7 gap-4 py-2 bg-gray-100 text-gray-700 font-semibold">
+      <p className="text-lg font-semibold mb-4">Total items available: {allProducts.length}</p>
+      <div className="listproduct-format-main grid grid-cols-8 gap-4 py-2 bg-gray-100 text-gray-700 font-semibold">
         <p>Product Image</p>
         <p>Title</p>
         <p>Old Price</p>
         <p>New Price</p>
         <p>Category</p>
-        <p className="ml-14">Popular</p>
-        <p className="ml-12">Remove</p>
+        <p className="ml-10">Popular</p>
+        <p className="ml-10">Actions</p>
+        <p className="ml-10">Remove</p>
       </div>
       <div className="listproduct-allproducts">
-        {allproducts.length === 0 ? (
+        {allProducts.length === 0 ? (
           <p className="text-center text-gray-500 py-4">No products available</p>
         ) : (
-          allproducts.map((product) => (
-            <div key={product._id} className="listproduct-formatemain grid grid-cols-7 gap-4 py-4 border-b border-gray-200 hover:bg-gray-50">
+          allProducts.map((product) => (
+            <div key={product.id} className="listproduct-formatemain grid grid-cols-8 gap-4 py-4 border-b border-gray-200 hover:bg-gray-50">
               <div className="flex items-center justify-center">
                 <img src={product.image} alt={product.name} className="w-24 h-24 object-cover rounded-md mr-16"/>
               </div>
-              <p className="text-gray-900 flex items-center">{product.name}</p>
-              <p className="text-gray-600 flex items-center">₹{product.old_price}</p>
-              <p className="text-gray-900 font-semibold flex items-center">₹{product.new_price}</p>
-              <p className="text-gray-500 capitalize flex items-center">{product.category}</p>
-              <div className="flex items-center justify-center">
-                <input 
-                  type="checkbox" 
-                  checked={product.popular} // Use the correct field name
-                  onChange={() => togglePopularStatus(product.id, product.popular)} 
-                />
-              </div>
-              <button onClick={() => removeProduct(product.id)} className="flex items-center justify-center p-2 hover:bg-red-100 rounded-full">
-                <img src={delete_icon} alt="Delete" className="w-6 h-6"/>
-              </button>
+              {isEditing === product.id ? (
+                <>
+                  <input
+                    type="text"
+                    name="name"
+                    value={editedProduct.name}
+                    onChange={handleChange}
+                    className="text-gray-900 flex items-center"
+                  />
+                  <input
+                    type="number"
+                    name="old_price"
+                    value={editedProduct.old_price}
+                    onChange={handleChange}
+                    className="text-gray-600 flex items-center"
+                  />
+                  <input
+                    type="number"
+                    name="new_price"
+                    value={editedProduct.new_price}
+                    onChange={handleChange}
+                    className="text-gray-900 font-semibold flex items-center"
+                  />
+                  <input
+                    type="text"
+                    name="category"
+                    value={editedProduct.category}
+                    onChange={handleChange}
+                    className="text-gray-500 capitalize flex items-center"
+                  />
+                  <div className="flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      checked={editedProduct.popular}
+                      onChange={() => togglePopularStatus(product.id, product.popular)}
+                    />
+                  </div>
+                  <button
+                    onClick={handleSaveClick}
+                    className="flex items-center justify-center p-2 hover:bg-green-100 rounded-full"
+                  >
+                    Save
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p className="text-gray-900 flex items-center">{product.name}</p>
+                  <p className="text-gray-600 flex items-center">₹{product.old_price}</p>
+                  <p className="text-gray-900 font-semibold flex items-center">₹{product.new_price}</p>
+                  <p className="text-gray-500 capitalize flex items-center">{product.category}</p>
+                  <div className="flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      checked={product.popular}
+                      onChange={() => togglePopularStatus(product.id, product.popular)}
+                    />
+                  </div>
+                  <button
+                    onClick={() => handleEditClick(product)}
+                    className="flex items-center justify-center p-2 hover:bg-blue-100 rounded-full"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => removeProduct(product.id)}
+                    className="flex items-center justify-center p-2 hover:bg-red-100 rounded-full"
+                  >
+                    <img src={delete_icon} alt="Delete" className="w-6 h-6"/>
+                  </button>
+                </>
+              )}
             </div>
           ))
         )}

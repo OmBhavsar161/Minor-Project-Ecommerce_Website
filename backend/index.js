@@ -363,6 +363,32 @@ app.post("/togglePopular", async (req, res) => {
   }
 });
 
+app.post("/updateproduct", async (req, res) => {
+  const { id, name, old_price, new_price, category } = req.body;
+
+  try {
+    // Use `findOneAndUpdate` to match by `id`, not `_id`
+    const updatedProduct = await Product.findOneAndUpdate(
+      { id }, // Matching the product by `id` field
+      {
+        name,
+        old_price,
+        new_price,
+        category,
+      },
+      { new: true } // Return the updated product
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating product details" });
+  }
+});
 
 
 
