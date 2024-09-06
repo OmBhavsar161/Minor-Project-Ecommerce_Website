@@ -108,8 +108,8 @@ const ListProduct = () => {
         <p>New Price</p>
         <p>Category</p>
         <p className="ml-10">Popular</p>
-        <p className="ml-10">Actions</p>
-        <p className="ml-10">Remove</p>
+        <p className= {isEditing ? "ml-[50px]" : "ml-10"}>{isEditing ? "Save" : "Actions"}</p> {/* Dynamic column heading */}
+        <p className="ml-10">{isEditing ? "Discount (%)" : "Remove"}</p> {/* Dynamic column heading */}
       </div>
       <div className="listproduct-allproducts">
         {allProducts.length === 0 ? (
@@ -159,10 +159,18 @@ const ListProduct = () => {
                   </div>
                   <button
                     onClick={handleSaveClick}
-                    className="flex items-center justify-center p-2 hover:bg-green-100 rounded-full"
+                    className="flex items-center justify-center p-2 bg-green-100 hover:bg-green-200 rounded-full"
                   >
                     Save
                   </button>
+                  <input
+                    type="number"
+                    name="off_percentage"
+                    value={editedProduct.off_percentage || ""}
+                    onChange={handleChange}
+                    className="text-black flex items-center ml-10 font-bold "
+                    placeholder="Enter discount"
+                  />
                 </>
               ) : (
                 <>

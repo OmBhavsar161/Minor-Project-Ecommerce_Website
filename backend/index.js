@@ -364,7 +364,7 @@ app.post("/togglePopular", async (req, res) => {
 });
 
 app.post("/updateproduct", async (req, res) => {
-  const { id, name, old_price, new_price, category } = req.body;
+  const { id, name, old_price, new_price, category, off_percentage } = req.body;
 
   try {
     // Use `findOneAndUpdate` to match by `id`, not `_id`
@@ -375,6 +375,7 @@ app.post("/updateproduct", async (req, res) => {
         old_price,
         new_price,
         category,
+        off_percentage,
       },
       { new: true } // Return the updated product
     );
