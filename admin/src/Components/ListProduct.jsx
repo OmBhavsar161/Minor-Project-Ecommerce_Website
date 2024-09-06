@@ -126,7 +126,7 @@ const ListProduct = () => {
           allProducts.map((product) => (
             <div
               key={product.id}
-              className="listproduct-formatemain grid grid-cols-8 gap-4 py-4 border-b border-gray-200 hover:bg-gray-50"
+              className="listproduct-formatemain grid grid-cols-8 gap-4 py-6 border-b border-gray-200 hover:bg-gray-50"
             >
               <div className="flex items-center justify-center">
                 <img
@@ -176,6 +176,7 @@ const ListProduct = () => {
                       onChange={() =>
                         togglePopularStatus(product.id, product.popular)
                       }
+                      
                     />
                   </div>
                   <button
