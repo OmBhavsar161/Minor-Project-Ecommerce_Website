@@ -44,7 +44,7 @@ const Product = () => {
       <Breadcrum product={product} />
       <ProductDisplay product={product} />
       <DescriptionBox />
-      <RelatedProducts />
+      <RelatedProducts currentCategory={product.category} /> {/* Pass the current product's category as a prop */}
     </div>
   );
 }
